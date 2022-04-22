@@ -1,9 +1,8 @@
 #include <Arduino.h>
 #include <KeyMonitor.h>
 
-
 const long longPressLimit = 2000; //затримка для longPress
-const int debouncLimit = 100;      //затримка антидребезга
+const int debouncLimit = 50;     //затримка антидребезга
 
 /*
     Режими цифрової кнопки:
@@ -141,20 +140,23 @@ int AnalogKeyMonitor(int pinNumber)
             }
         }
 
-        if (pinDegree > ButtonHold_1and2 - tolerance && pinDegree < ButtonHold_1and2 + tolerance)
+        if (isButton < 40)
         {
-            isButton = 0;
-            return 51;
-        }
-        else if (pinDegree > ButtonHold_1and3 - tolerance && pinDegree < ButtonHold_1and3 + tolerance)
-        {
-            isButton = 0;
-            return 52;
-        }
-        else if (pinDegree > ButtonHold_2and3 - tolerance && pinDegree < ButtonHold_2and3 + tolerance)
-        {
-            isButton = 0;
-            return 53;
+            if (pinDegree > ButtonHold_1and2 - tolerance && pinDegree < ButtonHold_1and2 + tolerance)
+            {
+                isButton = 0;
+                return 51;
+            }
+            else if (pinDegree > ButtonHold_1and3 - tolerance && pinDegree < ButtonHold_1and3 + tolerance)
+            {
+                isButton = 0;
+                return 52;
+            }
+            else if (pinDegree > ButtonHold_2and3 - tolerance && pinDegree < ButtonHold_2and3 + tolerance)
+            {
+                isButton = 0;
+                return 53;
+            }
         }
     }
     else if (millis() - debouncTimer > debouncLimit && millis() - debouncTimer < (debouncLimit + 10)) //антидребезг
